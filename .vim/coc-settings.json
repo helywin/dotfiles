@@ -1,0 +1,5 @@
+{
+    "clangd.path": "C:\\Qt\\Tools\\QtCreator\\bin\\clang\\bin\\clangd.exe",
+    "clangd.compilationDatabasePath": "build\\debug",
+    "clangd.semanticHighlighting": true
+}
