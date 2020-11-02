@@ -13,6 +13,7 @@ Plug 'preservim/nerdcommenter'
 "Plug 'octol/vim-cpp-enhanced-highlight'
 "fzf模糊查找工具
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 "LeaderF文件快速查找
 "if has('win32')
 "    Plug 'yggdroot/leaderf', { 'do': '.\install.bat' }
@@ -20,9 +21,9 @@ Plug 'junegunn/fzf'
 "    Plug 'yggdroot/leaderf', { 'do': './install.sh' }
 "endif
 "COC自动补全插件
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 "根据clangd高亮代码插件
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+"Plug 'jackguo380/vim-lsp-cxx-highlight'
 "Git集成插件
 Plug 'tpope/vim-fugitive'
 "Git行列标记插件
@@ -32,22 +33,28 @@ Plug 'airblade/vim-gitgutter'
 "Doxygen插件
 Plug 'babaybus/doxygentoolkit.vim'
 "YouCompleteMe插件
-"Plug 'ycm-core/youcompleteme'
+Plug 'ycm-core/youcompleteme'
 "驼峰拼写检查
 "Plug 'kamykn/spelunker.vim'
 "ALE lint
 "Plug 'dense-analysis/ale'
 "多行编辑插件
 Plug 'mg979/vim-visual-multi'
+"格式化代码工具
+Plug 'chiel92/vim-autoformat'
 
 call plug#end()
+"256色设置
+set t_Co=256
 "设置配色
 colorscheme onedark
+"onedark设置
+let g:onedark_termcolors=256
 "映射配置文件的快捷键
 if has('win32')
-    map rc <ESC>:e $HOME\_vimrc<CR>
+    :command RC e $HOME/_vimrc
 elseif has('unix')
-    map rc <ESC>:e $HOME/.vimrc<CR>
+    :command RC e $HOME/.vimrc
 endif
 "设置编码
 set encoding=utf-8
@@ -99,7 +106,7 @@ set hlsearch
 "set ignorecase
 "set smartcase
 "NERDTree快捷方式
-map ff <ESC>:FZF<CR>
+map ff <ESC>:GFiles<CR>
 "设置行号宽度为6, 防止clangd报错时页面会左右整体移动, 结果证明不管用
 "set nuw=6
 "设置状态栏显示分支名称
@@ -115,5 +122,6 @@ set tw=100
 "let g:ycm_seed_identifiers_with_syntax=1
 "Spelunker设置
 "let g:enable_spelunker_vim=1
-
-
+"关闭工具栏和菜单栏
+set guioptions-=m
+set guioptions-=T
