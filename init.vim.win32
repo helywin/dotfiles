@@ -43,6 +43,8 @@ Plug 'babaybus/doxygentoolkit.vim'
 Plug 'mg979/vim-visual-multi'
 "格式化代码工具
 Plug 'chiel92/vim-autoformat'
+"editor-config编辑配置插件
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 "256色设置
@@ -128,6 +130,8 @@ set guioptions-=m
 set guioptions-=T
 nmap <C-h> <C-w>h
 nmap <C-l> <C-w>l
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
 
 "coc.nvim
 "coc.nvim使用Tab切换补全
@@ -153,4 +157,6 @@ if has("patch-8.1.1564")
 else
     set signcolumn=yes
 endif
+"editorconfig配置
+let g:EditorConfig_max_line_indicator="exceeding"
 
