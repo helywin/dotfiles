@@ -45,6 +45,8 @@ Plug 'mg979/vim-visual-multi'
 Plug 'chiel92/vim-autoformat'
 "editor-config编辑配置插件
 Plug 'editorconfig/editorconfig-vim'
+"练习打字插件
+Plug 'thanthese/tortoise-typing'
 
 call plug#end()
 "256色设置
@@ -160,3 +162,6 @@ endif
 "editorconfig配置
 let g:EditorConfig_max_line_indicator="exceeding"
 
+"设置自动保存自动重新加载文件
+set autowriteall
+set autoread
