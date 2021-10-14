@@ -1,5 +1,23 @@
 {
-    "clangd.path": "C:\\Qt\\Tools\\QtCreator\\bin\\clang\\bin\\clangd.exe",
-    "clangd.compilationDatabasePath": "build\\debug",
-    "clangd.semanticHighlighting": true
+    "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "args": ["--log-file=/tmp/ccls.log", "-v=1"],
+      "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json"],
+      "initializationOptions": {
+         "cache": {
+           "directory": "/tmp/ccls"
+         },
+         "client": {
+          "snippetSupport": true
+         },
+
+        "index": {
+            "onChange": true
+        },
+        "highlight": { "lsRanges" : true }
+           }
+        }
+    }
 }

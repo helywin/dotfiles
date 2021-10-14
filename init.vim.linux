@@ -1,6 +1,6 @@
 call plug#begin('~/.config/nvim/plugged')
 "主题插件
-Plug 'connorholyday/vim-snazzy'
+"Plug 'connorholyday/vim-snazzy'
 Plug 'joshdick/onedark.vim'
 "文件树
 Plug 'preservim/nerdtree'
@@ -43,11 +43,26 @@ Plug 'mg979/vim-visual-multi'
 "格式化代码工具
 Plug 'chiel92/vim-autoformat'
 
+"if has('nvim')
+"    Plug 'neovim/nvim-lspconfig'
+"else
+"    Plug 'prabirshrestha/async.vim'
+"    Plug 'prabirshrestha/vim-lsp'
+"endif
+Plug 'ajh17/vimcompletesme'
+
+"括号自动对齐补全
+"Plug 'jiangmiao/auto-pairs'
+
+"工作空间管理
+Plug 'vim-ctrlspace/vim-ctrlspace'
+
 call plug#end()
 "256色设置
 set t_Co=256
 "设置配色
 colorscheme onedark
+set guifont=Source\ Code\ Pro
 "onedark设置
 let g:onedark_termcolors=256
 "映射配置文件的快捷键
@@ -58,6 +73,7 @@ elseif has('unix')
 endif
 "设置编码
 set encoding=utf-8
+set hidden
 "代码高亮
 syntax on
 "语言
@@ -107,6 +123,8 @@ set hlsearch
 "set smartcase
 "NERDTree快捷方式
 map ff <ESC>:GFiles<CR>
+"设置空格选中单个词语
+nmap <SPACE> viw
 "设置行号宽度为6, 防止clangd报错时页面会左右整体移动, 结果证明不管用
 "set nuw=6
 "设置状态栏显示分支名称
@@ -125,8 +143,17 @@ set tw=100
 "关闭工具栏和菜单栏
 set guioptions-=m
 set guioptions-=T
-nmap <C-h> <C-w>h
-nmap <C-l> <C-w>l
+nmap <C-h> :w<CR><C-w>h
+nmap <C-l> :w<CR><C-w>l
+nmap <C-j> :w<CR>:bnext<CR>
+nmap <C-k> :w<CR>:bprev<CR>
+imap <C-l> <ESC>la
+imap <C-h> <ESC>i
+inoremap ' ''<ESC>i
+"inoremap " ""<ESC>i
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+inoremap { {}<ESC>i
 
 "Don't pass message to |ins-completion-menu|.
 set shortmess+=c
@@ -161,4 +188,34 @@ if has("patch-8.1.1564")
 else
     set signcolumn=yes
 endif
+
+set ts=4
+set expandtab
+"airline配置
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" 大括号自动分行, C/C++下的自动命令, 添加到 .vimrc
+"autocmd BufWritePre,BufRead *.c :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
+"autocmd BufWritePre,BufRead *.cpp :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
+
+"function BracketsEnter(char)
+"    if getline('.')[col('.')-1] == a:char
+"        return "\<Enter>\<Tab>\<Esc>mpa\<Enter>\<Esc>`pa" 
+"    else
+"        return "\<Enter>"
+"    endif
+"endf
+"设置自动保存
+set autowriteall
+"ctrlspace插件快捷方式
+nmap <C-SPACE> :CtrlSpace<CR>
+"let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
+"
+" c++ 语法高亮
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
 

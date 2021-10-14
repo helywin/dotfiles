@@ -37,7 +37,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 ```
 
-## YouCompleteMe安装
+## ~~YouCompleteMe安装~~
 
 安装插件, 插件目录安装, 附带clangd和libclang的动态库封装,在ycm_core.so里面
 
@@ -47,3 +47,6 @@ python3 install.py --clangd-completer --clang-completer
 
 默认不用配置`.ycm_extra_conf.py`就能识别当前工作目录根目录下的`compile_commands.json`文件
 
+## ccls语法服务器
+
+[ccls](https://github.com/MaskRay/ccls/wiki)
