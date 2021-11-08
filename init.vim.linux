@@ -39,7 +39,8 @@ Plug 'babaybus/doxygentoolkit.vim'
 "ALE lint
 "Plug 'dense-analysis/ale'
 "多行编辑插件
-Plug 'mg979/vim-visual-multi'
+"Plug 'mg979/vim-visual-multi'
+Plug 'terryma/vim-multiple-cursors'
 "格式化代码工具
 Plug 'chiel92/vim-autoformat'
 
@@ -55,14 +56,24 @@ Plug 'ajh17/vimcompletesme'
 "Plug 'jiangmiao/auto-pairs'
 
 "工作空间管理
-Plug 'vim-ctrlspace/vim-ctrlspace'
+"Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'mhinz/vim-startify'
+
+"telescope插件
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+Plug 'voldikss/vim-floaterm'
+
 
 call plug#end()
 "256色设置
 set t_Co=256
 "设置配色
 colorscheme onedark
-set guifont=Source\ Code\ Pro
+
+set guifont=CaskaydiaCove\ Nerd\ Font\ Mono
 "onedark设置
 let g:onedark_termcolors=256
 "映射配置文件的快捷键
@@ -124,7 +135,7 @@ set hlsearch
 "NERDTree快捷方式
 map ff <ESC>:GFiles<CR>
 "设置空格选中单个词语
-nmap <SPACE> viw
+nmap <space> viw
 "设置行号宽度为6, 防止clangd报错时页面会左右整体移动, 结果证明不管用
 "set nuw=6
 "设置状态栏显示分支名称
