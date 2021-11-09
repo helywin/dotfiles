@@ -14,6 +14,7 @@ Plug 'preservim/nerdcommenter'
 "fzf模糊查找工具
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'ojroques/nvim-lspfuzzy'
 "LeaderF文件快速查找
 "if has('win32')
 "    Plug 'yggdroot/leaderf', { 'do': '.\install.bat' }
@@ -52,25 +53,65 @@ Plug 'chiel92/vim-autoformat'
 "endif
 Plug 'ajh17/vimcompletesme'
 
+"快速修改两边的括号或者引号
+Plug 'tpope/vim-surround'
+
+"模板配置
+Plug 'tibabit/vim-templates'
 "括号自动对齐补全
 "Plug 'jiangmiao/auto-pairs'
+
+"大纲插件
+Plug 'preservim/tagbar'
 
 "工作空间管理
 "Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'mhinz/vim-startify'
 
 "telescope插件
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-Plug 'voldikss/vim-floaterm'
 
+"LSP
+"Plug 'neovim/nvim-lspconfig'
 
+"LSP补全
+"Plug 'hrsh7th/cmp-nvim-lsp'
+"Plug 'hrsh7th/cmp-buffer'
+"Plug 'hrsh7th/cmp-path'
+"Plug 'hrsh7th/cmp-cmdline'
+"Plug 'hrsh7th/nvim-cmp'
+
+" For vsnip users.
+"Plug 'hrsh7th/cmp-vsnip'
+"Plug 'hrsh7th/vim-vsnip'
+
+" For luasnip users.
+" Plug 'L3MON4D3/LuaSnip'
+" Plug 'saadparwaiz1/cmp_luasnip'
+
+" For ultisnips users.
+" Plug 'SirVer/ultisnips'
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+" For snippy users.
+" Plug 'dcampos/nvim-snippy'
+" Plug 'dcampos/cmp-snippy'
+
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+"Plug 'voldikss/vim-floaterm'
 call plug#end()
+
+"lua << EOF
+"require'lspconfig'.clangd.setup{}
+"EOF
+
 "256色设置
 set t_Co=256
 "设置配色
+set background=dark
 colorscheme onedark
 
 set guifont=CaskaydiaCove\ Nerd\ Font\ Mono
@@ -133,7 +174,7 @@ set hlsearch
 "set ignorecase
 "set smartcase
 "NERDTree快捷方式
-map ff <ESC>:GFiles<CR>
+map ff <ESC>:Telescope find_files<CR>
 "设置空格选中单个词语
 nmap <space> viw
 "设置行号宽度为6, 防止clangd报错时页面会左右整体移动, 结果证明不管用
@@ -158,8 +199,8 @@ nmap <C-h> :w<CR><C-w>h
 nmap <C-l> :w<CR><C-w>l
 nmap <C-j> :w<CR>:bnext<CR>
 nmap <C-k> :w<CR>:bprev<CR>
-imap <C-l> <ESC>la
-imap <C-h> <ESC>i
+imap <C-l> <RIGHT>
+imap <C-h> <LEFT>
 inoremap ' ''<ESC>i
 "inoremap " ""<ESC>i
 inoremap ( ()<ESC>i
@@ -203,6 +244,7 @@ endif
 set ts=4
 set expandtab
 "airline配置
+let g:airline_theme='onedark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -230,3 +272,5 @@ let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 
+"模板设置
+let g:tmpl_author_email = 'jiang770882022@hotmail.com'
