@@ -9,8 +9,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "代码自动注释
 Plug 'preservim/nerdcommenter'
-"C++高亮插件
-"Plug 'octol/vim-cpp-enhanced-highlight'
 "fzf模糊查找工具
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -22,7 +20,7 @@ Plug 'ojroques/nvim-lspfuzzy'
 "    Plug 'yggdroot/leaderf', { 'do': './install.sh' }
 "endif
 "COC自动补全插件
-Plug 'neoclide/coc.nvim'
+"Plug 'neoclide/coc.nvim'
 "根据clangd高亮代码插件
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 "Git集成插件
@@ -37,7 +35,6 @@ Plug 'babaybus/doxygentoolkit.vim'
 "Plug 'ycm-core/youcompleteme'
 "驼峰拼写检查
 "Plug 'kamykn/spelunker.vim'
-"ALE lint
 "Plug 'dense-analysis/ale'
 "多行编辑插件
 "Plug 'mg979/vim-visual-multi'
@@ -45,16 +42,10 @@ Plug 'terryma/vim-multiple-cursors'
 "格式化代码工具
 Plug 'chiel92/vim-autoformat'
 
-"if has('nvim')
-"    Plug 'neovim/nvim-lspconfig'
-"else
-"    Plug 'prabirshrestha/async.vim'
-"    Plug 'prabirshrestha/vim-lsp'
-"endif
-Plug 'ajh17/vimcompletesme'
+"Plug 'ajh17/vimcompletesme'
 
 "快速修改两边的括号或者引号
-Plug 'tpope/vim-surround'
+"Plug 'tpope/vim-surround'
 
 "模板配置
 Plug 'tibabit/vim-templates'
@@ -74,22 +65,22 @@ Plug 'nvim-telescope/telescope.nvim'
 
 
 "LSP
-"Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig'
 
 "LSP补全
-"Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'hrsh7th/cmp-buffer'
-"Plug 'hrsh7th/cmp-path'
-"Plug 'hrsh7th/cmp-cmdline'
-"Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 
 " For vsnip users.
 "Plug 'hrsh7th/cmp-vsnip'
 "Plug 'hrsh7th/vim-vsnip'
 
 " For luasnip users.
-" Plug 'L3MON4D3/LuaSnip'
-" Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 
 " For ultisnips users.
 " Plug 'SirVer/ultisnips'
@@ -99,14 +90,86 @@ Plug 'nvim-telescope/telescope.nvim'
 " Plug 'dcampos/nvim-snippy'
 " Plug 'dcampos/cmp-snippy'
 
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" LSP异步查找
+"Plug 'glepnir/lspsaga.nvim'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 "Plug 'voldikss/vim-floaterm'
 call plug#end()
 
-"lua << EOF
+"set completeopt=menu,menuone,noselect
+
 "require'lspconfig'.clangd.setup{}
-"EOF
+lua << EOF
+local nvim_lsp = require('lspconfig')
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+local servers = { 'ccls' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    -- on_attach = my_custom_on_attach,
+    init_options = {
+        highlight = {
+        lsRanges = true;
+      }
+    },
+    capabilities = capabilities,
+  }
+end
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- luasnip setup
+local luasnip = require 'luasnip'
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+EOF
 
 "256色设置
 set t_Co=256
@@ -114,7 +177,8 @@ set t_Co=256
 set background=dark
 colorscheme onedark
 
-set guifont=CaskaydiaCove\ Nerd\ Font\ Mono
+set guifont=CaskaydiaCove\ Nerd\ Font\ Mono:h15,\ Noto\ Sans\ Mono\ CJK\ SC:h15
+"set guifontwide=Noto\ Sans\ Mono:h15
 "onedark设置
 let g:onedark_termcolors=256
 "映射配置文件的快捷键
@@ -124,6 +188,7 @@ elseif has('unix')
     :command RC e $HOME/.config/nvim/init.vim
 endif
 "设置编码
+lang message zh_CN.UTF-8
 set encoding=utf-8
 set hidden
 "代码高亮
@@ -169,7 +234,7 @@ set showcmd
 set wildmenu
 "查找选项和高亮
 set hlsearch
-"set "nohlsearch"
+"set nohlsearch
 "set incsearch
 "set ignorecase
 "set smartcase
@@ -195,13 +260,19 @@ set tw=100
 "关闭工具栏和菜单栏
 set guioptions-=m
 set guioptions-=T
+" 编辑模式移动光标
 nmap <C-h> :w<CR><C-w>h
 nmap <C-l> :w<CR><C-w>l
 nmap <C-j> :w<CR>:bnext<CR>
 nmap <C-k> :w<CR>:bprev<CR>
-imap <C-l> <RIGHT>
-imap <C-h> <LEFT>
-inoremap ' ''<ESC>i
+imap <C-h> <left>
+imap <C-j> <down>
+imap <C-k> <up>
+imap <C-l> <right>
+" cnoremap <c-h> <left>
+" cnoremap <c-j> <down>
+" cnoremap <c-k> <up>
+" cnoremap <c-l> <right>
 "inoremap " ""<ESC>i
 inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
@@ -209,29 +280,6 @@ inoremap { {}<ESC>i
 
 "Don't pass message to |ins-completion-menu|.
 set shortmess+=c
-"coc.nvim
-"coc.nvim使用Tab切换补全
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
-endfunction
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-"coc.nvim GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 set updatetime=300
 set cmdheight=2
 "解决clangd报错页面整体移动的问题
@@ -244,11 +292,26 @@ endif
 set ts=4
 set expandtab
 "airline配置
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
 let g:airline_theme='onedark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#symbol = '!'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰ '
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty= '*'
 
 " 大括号自动分行, C/C++下的自动命令, 添加到 .vimrc
 "autocmd BufWritePre,BufRead *.c :inoremap <Enter> <c-r>=BracketsEnter('}')<CR>
@@ -274,3 +337,6 @@ let g:cpp_class_decl_highlight = 1
 
 "模板设置
 let g:tmpl_author_email = 'jiang770882022@hotmail.com'
+
+"neovide
+"let g:neovide_fullscreen=v:true
