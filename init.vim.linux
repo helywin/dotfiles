@@ -50,7 +50,7 @@ Plug 'chiel92/vim-autoformat'
 "模板配置
 Plug 'tibabit/vim-templates'
 "括号自动对齐补全
-"Plug 'jiangmiao/auto-pairs'
+Plug 'LunarWatcher/auto-pairs', {'branch': 'develop-4.0.0'}
 
 "大纲插件
 Plug 'preservim/tagbar'
@@ -98,6 +98,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Plug 'voldikss/vim-floaterm'
 call plug#end()
 
+" nvim lsp配置,包括跳转和语法补全等
 "set completeopt=menu,menuone,noselect
 
 "require'lspconfig'.clangd.setup{}
@@ -106,11 +107,42 @@ local nvim_lsp = require('lspconfig')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  --buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  --buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('i', '<C-p>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {})
+  --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  --buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  --buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'ge', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  --buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+end
+
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local servers = { 'ccls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
-    -- on_attach = my_custom_on_attach,
+    on_attach = on_attach,
     init_options = {
         highlight = {
         lsRanges = true;
@@ -134,6 +166,7 @@ cmp.setup {
       require('luasnip').lsp_expand(args.body)
     end,
   },
+  -- 弹出补全菜单时的键盘映射
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -169,6 +202,21 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+require('telescope').setup{
+   defaults = {
+       vimgrep_arguments = {
+           'rg',
+           '--with-filename',
+           '--line-number',
+           '--column',
+           '--smart-case',
+           '--ignore-file',
+           '.gitignore'
+       }
+   }
+}
+
 EOF
 
 "256色设置
@@ -239,7 +287,10 @@ set hlsearch
 "set ignorecase
 "set smartcase
 "NERDTree快捷方式
-map ff <ESC>:Telescope find_files<CR>
+"查找git跟踪的文件
+map ff <ESC>:Telescope git_files<CR>    
+"查找所有文件
+map fF <ESC>:Telescope find_files<CR>   
 "设置空格选中单个词语
 nmap <space> viw
 "设置行号宽度为6, 防止clangd报错时页面会左右整体移动, 结果证明不管用
@@ -337,6 +388,19 @@ let g:cpp_class_decl_highlight = 1
 
 "模板设置
 let g:tmpl_author_email = 'jiang770882022@hotmail.com'
+let g:tmpl_author_name = 'helywin'
 
 "neovide
 "let g:neovide_fullscreen=v:true
+
+autocmd InsertLeave * :silent !fcitx5-remote -c " 退出插入模式时禁用输入法
+autocmd BufCreate *  :silent !fcitx5-remote -c " 创建 Buf 时禁用输入法
+autocmd BufEnter *  :silent !fcitx5-remote -c " 进入 Buf 时禁用输入法
+autocmd BufLeave *  :silent !fcitx5-remote -c " 离开 Buf 时禁用输入法
+
+
+let g:AutoPairsCompatibleMaps = 0
+"let g:AutoPairsMapBS = 1
+"let AutoPairsMultilineBackspace = 1
+inoremap <C-w> <C-w><DEL>
+
