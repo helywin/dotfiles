@@ -1,0 +1,2 @@
+command script import .lldb/QtFormatters.py
+command source .lldb/QtFormatters.lldb

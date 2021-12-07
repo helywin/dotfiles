@@ -50,3 +50,6 @@ python3 install.py --clangd-completer --clang-completer
 ## ccls语法服务器
 
 [ccls](https://github.com/MaskRay/ccls/wiki)
+```shell
+cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-12
+```

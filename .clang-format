@@ -1,105 +1,66 @@
+# Generated from CLion C/C++ Code Style settings
+BasedOnStyle: LLVM
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: true
-#AlignConsecutiveDeclarations: true
-AlignConsecutiveMacros: true
-AlignEscapedNewlines: Left
-AlignOperands: true
-AllowAllParametersOfDeclarationOnNextLine: false
+AlignConsecutiveAssignments: None
+AlignOperands: Align
 AllowAllArgumentsOnNextLine: false
 AllowAllConstructorInitializersOnNextLine: false
-AllowShortBlocksOnASingleLine: Empty
-AllowShortCaseLabelsOnASingleLine: true
-AllowShortLambdasOnASingleLine: Inline
-AllowShortFunctionsOnASingleLine: Inline
-AllowShortIfStatementsOnASingleLine: Never
-AllowShortLoopsOnASingleLine: false
-AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Always
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterReturnType: None
-AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
-BinPackParameters: false
-BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
-BreakBeforeTernaryOperators: true
-BreakConstructorInitializers: AfterColon
-BinPackArguments: true
 BraceWrapping:
-    AfterCaseLabel: true
-    AfterClass: true
-    AfterEnum: true
-    AfterUnion: true
-    AfterControlStatement: MultiLine
-    AfterExternBlock: true
-    AfterFunction: true
-    AfterNamespace: true
-    AfterObjCDeclaration: true
-    AfterStruct: true
-    BeforeCatch: false
-    BeforeElse: false
-    IndentBraces: false
-    SplitEmptyFunction: false
-    SplitEmptyNamespace: false
-    SplitEmptyRecord: false
-BreakBeforeInheritanceComma: false
-BreakInheritanceList: AfterColon
-BreakStringLiterals: false
-ColumnLimit: 100
-#CommentPragmas:
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
-ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 0
-Cpp11BracedListStyle: true
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: Never
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterUnion: true
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: true
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
+ColumnLimit: 0
 CompactNamespaces: false
-DerivePointerAlignment: false
-DeriveLineEnding: false
-DisableFormat: false
-ExperimentalAutoDetectBinPacking: false
-FixNamespaceComments: true
-IncludeBlocks: Preserve
-IndentGotoLabels: false
-IndentCaseBlocks: false
-IndentCaseLabels: false
-IndentPPDirectives: BeforeHash
+ContinuationIndentWidth: 8
+IndentCaseLabels: true
+IndentPPDirectives: None
 IndentWidth: 4
-IndentWrappedFunctionNames: true
-KeepEmptyLinesAtTheStartOfBlocks: false
-Language: Cpp
-MaxEmptyLinesToKeep: 1
-NamespaceIndentation: Inner
-PenaltyBreakAssignment: 1
-PenaltyBreakBeforeFirstCallParameter: 0
-PenaltyBreakComment: 1
-PenaltyBreakFirstLessLess: 1
-PenaltyBreakString: 1
-PenaltyBreakTemplateDeclaration: 1
-PenaltyExcessCharacter: 1
-PenaltyReturnTypeOnItsOwnLine: 1
+KeepEmptyLinesAtTheStartOfBlocks: true
+MaxEmptyLinesToKeep: 2
+NamespaceIndentation: None
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: true
 PointerAlignment: Right
 ReflowComments: false
-SortIncludes: false
-SortUsingDeclarations: true
-SpaceAfterCStyleCast: false
+SpaceAfterCStyleCast: true
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
-SpaceBeforeCpp11BracedList: true
+SpaceBeforeCpp11BracedList: false
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
-SpaceBeforeSquareBrackets: false
-SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
-SpacesBeforeTrailingComments: 3
+SpacesBeforeTrailingComments: 0
 SpacesInAngles: false
-SpacesInConditionalStatement: false
-SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: c++14
 TabWidth: 4
 UseTab: Never
-UseCRLF: false

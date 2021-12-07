@@ -288,9 +288,9 @@ set hlsearch
 "set smartcase
 "NERDTree快捷方式
 "查找git跟踪的文件
-map ff <ESC>:Telescope git_files<CR>    
+map ff <ESC>:Telescope git_files<CR>
 "查找所有文件
-map fF <ESC>:Telescope find_files<CR>   
+map fF <ESC>:Telescope find_files<CR>
 "设置空格选中单个词语
 nmap <space> viw
 "设置行号宽度为6, 防止clangd报错时页面会左右整体移动, 结果证明不管用
